@@ -2,47 +2,84 @@ import React, { useRef, useState } from "react";
 import checkForm from "../utils/formValidator";
 
 const Form = () => {
-  const url = "/users/login";
   const [errMsg, setErrMsg] = useState("");
+  const [isSignUpForm, setSignUpForm] = useState(false);
   const eml = useRef(null);
   const pw = useRef(null);
+  const usrnm = useRef(null);
 
+  const handleSignUpLabel = () => {
+    setSignUpForm((prevStatus) => !prevStatus);
+    setErrMsg("")
+    console.log(isSignUpForm);
+  };
+  const URL = isSignUpForm ? "/users/signup" : "/users/login";
   const handleSignIn = async () => {
     console.log("button clicked");
     const email = eml.current.value;
     const password = pw.current.value;
+    const username = isSignUpForm?usrnm.current.value:null;
+    
     console.log(email, password);
 
     // Validate form input
-    const validatorMessage = checkForm(email, password);
+    const validatorMessage = checkForm(email,password,username,isSignUpForm);
     setErrMsg(validatorMessage);
     if (validatorMessage !== null) return;
 
-    // Prepare and send the request
-    const request = new Request(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json", // Ensure correct header for JSON
-      },
-      body: JSON.stringify({
-        username: email,
-        password: password, // Pass the actual password value here
-      }),
-    });
+    if (!isSignUpForm) {
+      const request = new Request(URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Ensure correct header for JSON
+        },
+        body: JSON.stringify({
+          username: email,
+          password: password, // Pass the actual password value here
+        }),
+      });
 
-    try {
-      console.log("waiting for server")
-      const response = await fetch(request);
-      console.log(response)
-      console.log("server responded")
-      const json = await response.json();
-      console.log(json);
-      console.log(json.message)
-    } catch (error) {
-      console.error("Error during fetch:", error);
+      try {
+        console.log("waiting for server");
+        const response = await fetch(request);
+        console.log(response);
+        console.log("server responded");
+        const json = await response.json();
+        console.log(json);
+        const error= json?.error;
+        if(error!=null){
+          throw new Error(error);
+        }
+      } catch (error) {
+        const errMessage = error.message;
+        setErrMsg(errMessage);
+        
+      }
+    } else {
+      const request = new Request(URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: usrnm.current.value,
+          email: email,
+          password: password,
+        }),
+      });
+      try {
+        console.log("waiting for server");
+        const response = await fetch(request);
+        const json = await response.json();
+        console.log(json);
+      } catch (err) {
+        console.log("error during fetch", err);
+      }
     }
   };
 
+  const btnName = isSignUpForm ? "Sign Up" : "Sign In";
+  const formHead = { isSignUpForm } ? "Up" : "In";
   return (
     <div className="flex bg- w-screen h-screen">
       <div className="bg- h-full w-[50%] relative">
@@ -63,7 +100,7 @@ const Form = () => {
       <div className="bg- w-[50%] flex justify-center p-8">
         <div className="bg- w-auto max-w-[60%] h-[80%] flex flex-col py-8 mt-[15%] px-4">
           <h1 className="font-bold text-3xl text-center text-black">
-            Sign in to Todo Vibe
+            Sign {formHead} to Todo Vibe
           </h1>
           <form
             className="mt-8"
@@ -78,9 +115,17 @@ const Form = () => {
               placeholder="Email"
               ref={eml}
             />
+            {isSignUpForm && (
+              <input
+                className="my-2 p-4 rounded-3xl w-full bg-gray-300 bg-opacity-80 placeholder-gray-400 font-bold"
+                type="text"
+                placeholder="username"
+                ref={usrnm}
+              />
+            )}
             <input
               className="my-2 p-4 rounded-3xl w-full bg-gray-300 bg-opacity-80 placeholder-gray-400 font-bold"
-              type="password" // Use password type for better security
+              type="text" // Use password type for better security
               placeholder="Password"
               ref={pw}
             />
@@ -105,7 +150,7 @@ const Form = () => {
               type="submit" // Change button type to submit
               className="w-full bg-[#ed510f] px-2 py-4 font-bold text-white rounded-3xl"
             >
-              Sign In
+              {btnName}
             </button>
           </form>
           <div className="mt-10 flex px-2">
@@ -137,9 +182,14 @@ const Form = () => {
           </button>
           <div className="text-center mt-4">
             <span>
-              Don't have an account?{" "}
-              <span className="text-[#ed510f] font-bold underline hover:cursor-pointer">
-                Sign Up now
+              {isSignUpForm ? "Already" : "Don't"} have an account?{" "}
+              <span
+                className="text-[#ed510f] font-bold underline hover:cursor-pointer"
+                onClick={() => {
+                  handleSignUpLabel();
+                }}
+              >
+                Sign {isSignUpForm ? "In" : "Up"} now
               </span>
             </span>
           </div>
