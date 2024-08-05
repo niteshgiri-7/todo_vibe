@@ -10,7 +10,7 @@ const Form = () => {
 
   const handleSignUpLabel = () => {
     setSignUpForm((prevStatus) => !prevStatus);
-    setErrMsg("")
+    setErrMsg("");
     console.log(isSignUpForm);
   };
   const URL = isSignUpForm ? "/users/signup" : "/users/login";
@@ -18,12 +18,12 @@ const Form = () => {
     console.log("button clicked");
     const email = eml.current.value;
     const password = pw.current.value;
-    const username = isSignUpForm?usrnm.current.value:null;
-    
+    const username = isSignUpForm ? usrnm.current.value : null;
+
     console.log(email, password);
 
     // Validate form input
-    const validatorMessage = checkForm(email,password,username,isSignUpForm);
+    const validatorMessage = checkForm(email, password, username, isSignUpForm);
     setErrMsg(validatorMessage);
     if (validatorMessage !== null) return;
 
@@ -46,14 +46,13 @@ const Form = () => {
         console.log("server responded");
         const json = await response.json();
         console.log(json);
-        const error= json?.error;
-        if(error!=null){
+        const error = json?.error;
+        if (error != null) {
           throw new Error(error);
         }
       } catch (error) {
         const errMessage = error.message;
         setErrMsg(errMessage);
-        
       }
     } else {
       const request = new Request(URL, {
@@ -72,8 +71,13 @@ const Form = () => {
         const response = await fetch(request);
         const json = await response.json();
         console.log(json);
-      } catch (err) {
-        console.log("error during fetch", err);
+        const error = json?.error;
+        if (error) {
+          throw new Error(error);
+        }
+      } catch (error) {
+        const errMessage = error.message;
+        setErrMsg(errMessage);
       }
     }
   };
@@ -82,14 +86,14 @@ const Form = () => {
   const formHead = { isSignUpForm } ? "Up" : "In";
   return (
     <div className="flex bg- w-screen h-screen">
-      <div className="bg- h-full w-[50%] relative">
+      <div className="bg- h-full w-[50%] relative overflow-y-hidden">
         <img
           className="w-full h-full absolute object-cover"
           src="/photo.avif"
           alt="homeImg"
         />
-        <div className="max-w-full max-h-full w-full h-full absolute py-[15%] px-[5%]">
-          <h1 className="text-gray-700 text-[140px] text-center font-bold">
+        <div className="max-w-full max-h-full w-full h-full absolute py-[20%] px-[5%]">
+          <h1 className="text-gray-700 text-[7vw] text-center font-bold">
             Manage your <span className="text-[#ed510f]">tasks</span> better
           </h1>
           <h1 className="font-bold text-2xl text-gray-800 px-4 py-4 mt-10 mx-4">
