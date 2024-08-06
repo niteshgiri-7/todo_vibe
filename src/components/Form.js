@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
-import checkForm from "../utils/formValidator";
-
+import handleLogin from "../utils/handleLogin";
 const Form = () => {
   const [errMsg, setErrMsg] = useState("");
   const [isSignUpForm, setSignUpForm] = useState(false);
@@ -13,73 +12,9 @@ const Form = () => {
     setErrMsg("");
     console.log(isSignUpForm);
   };
-  const URL = isSignUpForm ? "/users/signup" : "/users/login";
-  const handleSignIn = async () => {
-    console.log("button clicked");
-    const email = eml.current.value;
-    const password = pw.current.value;
-    const username = isSignUpForm ? usrnm.current.value : null;
 
-    console.log(email, password);
-
-    // Validate form input
-    const validatorMessage = checkForm(email, password, username, isSignUpForm);
-    setErrMsg(validatorMessage);
-    if (validatorMessage !== null) return;
-
-    if (!isSignUpForm) {
-      const request = new Request(URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Ensure correct header for JSON
-        },
-        body: JSON.stringify({
-          username: email,
-          password: password, // Pass the actual password value here
-        }),
-      });
-
-      try {
-        console.log("waiting for server");
-        const response = await fetch(request);
-        console.log(response);
-        console.log("server responded");
-        const json = await response.json();
-        console.log(json);
-        const error = json?.error;
-        if (error != null) {
-          throw new Error(error);
-        }
-      } catch (error) {
-        const errMessage = error.message;
-        setErrMsg(errMessage);
-      }
-    } else {
-      const request = new Request(URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: usrnm.current.value,
-          email: email,
-          password: password,
-        }),
-      });
-      try {
-        console.log("waiting for server");
-        const response = await fetch(request);
-        const json = await response.json();
-        console.log(json);
-        const error = json?.error;
-        if (error) {
-          throw new Error(error);
-        }
-      } catch (error) {
-        const errMessage = error.message;
-        setErrMsg(errMessage);
-      }
-    }
+  const handleSignIn = () => {
+    handleLogin(isSignUpForm, eml, usrnm, pw, setErrMsg);
   };
 
   const btnName = isSignUpForm ? "Sign Up" : "Sign In";
@@ -109,24 +44,26 @@ const Form = () => {
           <form
             className="mt-8"
             onSubmit={(e) => {
-              e.preventDefault(); // Prevent default form submission
-              handleSignIn(); // Handle sign-in
+              e.preventDefault();
+              handleSignIn(); 
             }}
           >
-            <input
-              className="my-2 p-4 rounded-3xl w-full bg-gray-300 bg-opacity-80 placeholder-gray-400 font-bold"
-              type="text"
-              placeholder="Email"
-              ref={eml}
-            />
             {isSignUpForm && (
               <input
                 className="my-2 p-4 rounded-3xl w-full bg-gray-300 bg-opacity-80 placeholder-gray-400 font-bold"
                 type="text"
-                placeholder="username"
-                ref={usrnm}
+                placeholder="Email"
+                ref={eml}
               />
             )}
+
+            <input
+              className="my-2 p-4 rounded-3xl w-full bg-gray-300 bg-opacity-80 placeholder-gray-400 font-bold"
+              type="text"
+              placeholder="username"
+              ref={usrnm}
+            />
+
             <input
               className="my-2 p-4 rounded-3xl w-full bg-gray-300 bg-opacity-80 placeholder-gray-400 font-bold"
               type="text" // Use password type for better security
