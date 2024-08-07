@@ -9,6 +9,7 @@ const checkForm = (email,password,username,isSignUpForm) => {
   
   }
   if (username.trim().length===0) return "enter username";
+  console.log(isPwValid,password)
   if (!isPwValid) return "include upper & lowercases and special character in password";
 
   return null;

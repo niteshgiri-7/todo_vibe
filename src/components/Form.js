@@ -14,7 +14,7 @@ const Form = () => {
   };
 
   const handleSignIn = () => {
-    handleLogin(isSignUpForm, eml, usrnm, pw, setErrMsg);
+    handleLogin(isSignUpForm, eml,pw,usrnm, setErrMsg);
   };
 
   const btnName = isSignUpForm ? "Sign Up" : "Sign In";

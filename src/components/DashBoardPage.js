@@ -1,7 +1,10 @@
 import React from "react";
+import Utils from "./Utils";
 
 const DashBoardPage = () => {
-  return <div>this is a dash</div>;
+  return <div>
+    <Utils/>
+    </div>;
 };
 
 export default DashBoardPage;
