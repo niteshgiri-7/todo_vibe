@@ -7,7 +7,7 @@ const Utils = () => {
       <h1 className="font-bold text-[30%] bg- text-black p-2 text-center">
         Todo Vibe
       </h1>
-      <div className="bg- w-full h-[50%] mt-[30%] text-[20%] text-[#476279] p-2">
+      <div className="bg- w-full h-[50%] mt-[10%] text-[20%] text-[#476279] p-2">
         <div className="bg- p-2 w-auto h-auto mt-[70px] flex flex-col items-center">
           <ul className="flex flex-col gap-10 ">
             {lists.map((list, index) => {

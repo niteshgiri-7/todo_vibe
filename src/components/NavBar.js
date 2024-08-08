@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 const NavBar = () => {
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between ">
     <div className="relative w-[25%]">
       <input
         className="w-full bg-gray-200 pl-6 pr-10 py-4 rounded-md"
@@ -23,4 +23,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar; //imported in mainboard
+export default NavBar; 
