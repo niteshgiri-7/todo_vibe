@@ -3,7 +3,7 @@ import React from "react";
 const Utils = () => {
   const lists = ["Home", "Main Boards", "Notes", "Journal", "Settings"];
   return (
-    <div className="h-screen  p-4 text-[5vw] bg-[#f0f5f9]">
+    <div className="min-h-screen p-4 text-[5vw] bg-[#f0f5f9]">
       <h1 className="font-bold text-[30%] bg- text-black p-2 text-center">
         Todo Vibe
       </h1>
