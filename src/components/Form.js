@@ -1,6 +1,12 @@
 import React, { useRef, useState } from "react";
 import handleLogin from "../utils/handleLogin";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const Form = () => {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [errMsg, setErrMsg] = useState("");
   const [isSignUpForm, setSignUpForm] = useState(false);
   const eml = useRef(null);
@@ -14,7 +20,7 @@ const Form = () => {
   };
 
   const handleSignIn = () => {
-    handleLogin(isSignUpForm, eml,pw,usrnm, setErrMsg);
+    handleLogin(isSignUpForm, eml,pw,usrnm, setErrMsg,dispatch,navigate);
   };
 
   const btnName = isSignUpForm ? "Sign Up" : "Sign In";

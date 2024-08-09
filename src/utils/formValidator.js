@@ -4,7 +4,7 @@ const checkForm = (email,password,username,isSignUpForm) => {
  
  
   if(isSignUpForm){
-    const isEmailValid = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
+    const isEmailValid = /^\S+@\S+\.\S+$/.test(email);
     if (!isEmailValid) return "invalid email";
   
   }
