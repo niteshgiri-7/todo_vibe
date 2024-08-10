@@ -11,16 +11,26 @@ const DashBoardPage = () => {
     if (!userExist) {
       navigate("/login");
     }
-  });
+  },[userExist,navigate]);
 
-  return (userExist)?(
+  return userExist ? (
     <div className="flex">
       <div className="w-[12vw]">
         <Utils />
       </div>
       <MainBoard />
     </div>
-  ):null;
+  ) : null;
+  // return (
+    
+  //     <div className="flex">
+  //       <div className="w-[12vw]">
+  //         <Utils />
+  //       </div>
+  //       <MainBoard />
+  //     </div>
+    
+  // )
 };
 
 export default DashBoardPage;

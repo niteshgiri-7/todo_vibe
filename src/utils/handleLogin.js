@@ -10,12 +10,11 @@ const handleLogin = async (
   navigate
 ) => {
   const URL = isSignUpForm ? "/users/signup" : "/users/login";
-  console.log("button clicked");
   const email = isSignUpForm ? eml.current.value : null;
   const password = pw.current.value;
   const username = usrnm.current.value;
 
-  console.log(email, password);
+  console.log("print",email, password,username,isSignUpForm);
 
   const validatorMessage = checkForm(email, password, username, isSignUpForm);
   setErrMsg(validatorMessage);
@@ -39,17 +38,20 @@ const handleLogin = async (
 
     console.log("server responded");
     const json = await response.json();
-    const username = json.username;
-    dispatch(addUser(username));
-    navigate("/dashboard");
-    const error = json?.error;
-    if (error) {
-      throw new Error(error);
+    const username = json?.username;
+    if(username){
+      dispatch(addUser(username));
+      navigate("/dashboard");
     }
-
     if (json?.token) {
       localStorage.setItem("authToken", json.token);
     }
+    const error = json?.error;
+    if (error) {
+     return  setErrMsg(error)
+    }
+
+    
   } catch (error) {
     const errMessage = error.message;
     setErrMsg(errMessage);
