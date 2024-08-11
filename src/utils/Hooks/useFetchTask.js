@@ -4,10 +4,10 @@ import { addTaskFromBackend } from "../tasksSlice";
 
 const useFetchTask = () => {
   const dispatch = useDispatch();
-  const addTaskBoolean = useSelector((store) => store.taskSlice.addTaskBoolean);
+  const {taskBoolean,deleteTaskBoolean} = useSelector((store) => store.taskSlice);
   useEffect(() => {
     fetchTask();
-  }, [addTaskBoolean]);
+  }, [taskBoolean,deleteTaskBoolean]);
   const fetchTask = async () => {
     const authToken = localStorage.getItem("authToken");
     const URL = "/tasks";

@@ -1,6 +1,6 @@
 import React from "react";
 
-const Cards = ({ title, description }) => {
+const Cards = ({id, title, description,onDelete}) => {
   return (
     <div className="w-[23%] h-auto min-h-[200px]  text-black my-[20px] mx-2 rounded-lg p-4 border border-gray-200 shadow-2xl shadow-gray-300 flex flex-col">
       <div className="mb-2 ">
@@ -13,7 +13,7 @@ const Cards = ({ title, description }) => {
         <button className="bg-blue-800 px-[5%] py-2 rounded-lg hover:cursor-pointer hover:bg-opacity-80">
           Edit
         </button>
-        <button className="bg-red-600 px-[5%] py-2 rounded-lg hover:cursor-pointer hover:bg-opacity-80">
+        <button className="bg-red-600 px-[5%] py-2 rounded-lg hover:cursor-pointer hover:bg-opacity-80" onClick={()=>{onDelete(id)}}>
           Delete
         </button>
       </div>

@@ -3,24 +3,31 @@ import NavBar from "./NavBar";
 import Cards from "./Cards";
 import NewCard from "./NewCard";
 import useFetchTask from "../utils/Hooks/useFetchTask";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Shimmer from "./Shimmer";
-
+import useDeleteTask from "../utils/Hooks/useDeleteTask";
+import { deleteTaskActivate } from "../utils/tasksSlice";
 const MainBoard = () => {
   const [showNewCard, setShowNewCard] = useState(false);
-  const allTasks = useSelector((store) => store.taskSlice.allTasks);
-
-
+  const { allTasks} = useSelector(
+    (store) => store.taskSlice
+  );
+  const dispatch = useDispatch();
+  const {handleDelete} = useDeleteTask();
   const handleBtnClick = () => {
-    if(allTasks.length>8){
+    if (allTasks.length > 8) {
       console.log("cannot add more than 8 tasks");
       return null;
     }
     setShowNewCard(true);
   };
   useFetchTask();
-  // console.log(allTasks);
 
+  const onDelete = async(id)=>{
+    console.log(id)
+     await handleDelete(id);
+       dispatch(deleteTaskActivate())
+  }
   return (
     <div className="w-full h-auto bg- px-[4%] py-[0.7%] relative">
       <NavBar />
@@ -57,7 +64,13 @@ const MainBoard = () => {
       ) : (
         <div className=" w-[100%] bg-green-50 flex flex-wrap justify-start  px-2">
           {allTasks.map((allTask) => (
-            <Cards key={allTask._id} title={allTask.title} description={allTask.description} />
+            <Cards
+              key={allTask._id}
+              id={allTask._id}
+              title={allTask.title}
+              description={allTask.description}
+              onDelete = {onDelete}
+            />
           ))}
         </div>
       )}
