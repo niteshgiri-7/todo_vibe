@@ -35,7 +35,7 @@ const handleLogin = async (
       },
       body: JSON.stringify(requestBody),
     });
-
+    console.log(response)
     console.log("server responded");
     const json = await response.json();
     const username = json?.username;

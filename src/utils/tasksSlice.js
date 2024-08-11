@@ -5,6 +5,7 @@ const taskSlice = createSlice({
   initialState: {
     taskBoolean: false,
     deleteTaskBoolean:false,
+    editTaskBoolean:false,
     allTasks: null,
   },
   reducers: {
@@ -16,9 +17,12 @@ const taskSlice = createSlice({
     },
     deleteTaskActivate:(state,action)=>{
       state.deleteTaskBoolean=!state.deleteTaskBoolean;
+    },
+    editTaskActivate:(state)=>{
+      state.editTaskBoolean=!state.editTaskBoolean;
     }
   },
 });
 
-export const { toggleAddTask, addTaskFromBackend ,deleteTaskActivate} = taskSlice.actions;
+export const { toggleAddTask, addTaskFromBackend ,deleteTaskActivate,editTaskActivate} = taskSlice.actions;
 export default taskSlice.reducer;
