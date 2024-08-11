@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 const useAddNewTask = (topic, text) => {
-  const addTask = useSelector((store) => store.taskSlice.addTaskBoolean);
+  const {addTaskBoolean} = useSelector((store) => store.taskSlice);
 
   useEffect(() => {
     handleAdd(topic, text);
-  },[addTask]);
+  }, [addTaskBoolean]);
   const handleAdd = async (topic, text) => {
+   
     const title = topic.current.value;
     const description = text.current.value;
     if (!title || !description) return null;

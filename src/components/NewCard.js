@@ -3,6 +3,7 @@ import useAddNewTask from "../utils/Hooks/useAddNewTask";
 import { useDispatch } from "react-redux";
 import { toggleAddTask } from "../utils/tasksSlice";
 const NewCard = ({ setShowNewCard }) => {
+
   const topic = useRef(null);
   const text = useRef(null);
   const dispatch = useDispatch();
@@ -11,6 +12,9 @@ const NewCard = ({ setShowNewCard }) => {
   };
   const activateButton = () => {
     dispatch(toggleAddTask());
+    setTimeout(() => {
+      setShowNewCard(false);
+    }, 1);
   };
   useAddNewTask(topic, text);
   return (
