@@ -8,6 +8,9 @@ const EditCard = ({ setShowEditCard, title, description, onEditDone }) => {
   const handleDone = () => {
     const newTitile = topic.current.value;
     const newDescription = text.current.value;
+    if (newTitile.length === 0 || newDescription.length === 0) {
+     return console.log("cannot have null string");
+    }
     onEditDone(newTitile, newDescription);
   };
   return (
@@ -32,7 +35,10 @@ const EditCard = ({ setShowEditCard, title, description, onEditDone }) => {
         >
           Cancel
         </button>
-        <button className="bg-blue-800 text-white rounded-lg w-auto px-2 py-2 hover:bg-opacity-80" onClick={()=>handleDone()}>
+        <button
+          className="bg-blue-800 text-white rounded-lg w-auto px-2 py-2 hover:bg-opacity-80"
+          onClick={() => handleDone()}
+        >
           Done
         </button>
       </div>

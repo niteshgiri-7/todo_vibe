@@ -1,16 +1,18 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 const useAddNewTask = (topic, text) => {
-  const {taskBoolean} = useSelector((store) => store.taskSlice);
+  const { taskBoolean } = useSelector((store) => store.taskSlice);
 
   useEffect(() => {
     handleAdd(topic, text);
   }, [taskBoolean]);
   const handleAdd = async (topic, text) => {
-   
     const title = topic.current.value;
     const description = text.current.value;
-    if (!title || !description) return null;
+    if (title.trim().length === 0 || description.trim().length === 0) {
+      console.log("cannot have null value");
+      return null;
+    }
     const URL = "/tasks";
     const token = localStorage.getItem("authToken");
     const requestBody = {
@@ -18,7 +20,7 @@ const useAddNewTask = (topic, text) => {
       description: description,
     };
 
-    console.log("waiting for server");
+    console.log("waiting for adding server");
     try {
       const response = await fetch(URL, {
         method: "POST",

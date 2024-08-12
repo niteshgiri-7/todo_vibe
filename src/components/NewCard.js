@@ -3,7 +3,6 @@ import useAddNewTask from "../utils/Hooks/useAddNewTask";
 import { useDispatch } from "react-redux";
 import { toggleAddTask } from "../utils/tasksSlice";
 const NewCard = ({ setShowNewCard }) => {
-
   const topic = useRef(null);
   const text = useRef(null);
   const dispatch = useDispatch();
@@ -17,6 +16,8 @@ const NewCard = ({ setShowNewCard }) => {
     }, 1);
   };
   useAddNewTask(topic, text);
+  
+ 
   return (
     <div className="w-[25%] h-[40%] bg-green-200 rounded-lg absolute top-[20%] left-[30%] p-4 shadow-gray-600 border border-gray-200 shadow-2xl">
       <input

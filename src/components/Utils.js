@@ -1,9 +1,16 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { addShowItem } from "../utils/uiSlice";
 const Utils = () => {
   const lists = ["Home", "Main Boards", "Notes", "Journal", "Settings"];
+  const dispatch = useDispatch();
+
+  const handleClick = (item) => {
+    console.log(item);
+    dispatch(addShowItem(item));
+  };
   return (
-    <div className="min-h-screen p-4 text-[5vw] bg-[#f0f5f9]">
+    <div className="min-h-screen p-2 text-[5vw] bg-[#f0f5f9]">
       <h1 className="font-bold text-[30%] bg- text-black p-2 text-center">
         Todo Vibe
       </h1>
@@ -15,6 +22,7 @@ const Utils = () => {
                 <li
                   key={index}
                   className="hover:underline cursor-pointer hover:bg-gradient-to-r from-gray-300"
+                  onClick={() => handleClick(list)}
                 >
                   {list}
                 </li>
