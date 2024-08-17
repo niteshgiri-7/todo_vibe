@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 const NavBar = () => {
-  const name = useSelector((store) => store.user);
+  const name = useSelector((store) => store.user.userHere);
   return (
     <div className="flex justify-between  ">
       <div className="relative w-[25%]">

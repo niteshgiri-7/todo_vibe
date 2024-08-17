@@ -1,9 +1,19 @@
 import React from "react";
 import useLogOut from "../utils/Hooks/useLogOut";
+import ChangePassword from "./ChangePassword";
+import { useDispatch, useSelector } from "react-redux";
+import { setShowChangePassword } from "../utils/uiSlice";
 const Settings = () => {
   const { logOut } = useLogOut();
+  const dispatch = useDispatch();
+  const showChangePassword = useSelector(
+    (store) => store.uiSlice.showChangePassword
+  );
   const handleLogOut = () => {
     logOut();
+  };
+  const handleChangePw = () => {
+    dispatch(setShowChangePassword());
   };
   return (
     <div className="bg- w-full h-screen flex justify-center ">
@@ -29,7 +39,10 @@ const Settings = () => {
             <span className="bg-gray-500 text-white rounded-lg w-full px-2 py-2 hover:bg-opacity-80 cursor-pointer shadow-gray-200 shadow-2xl">
               Theme mode
             </span>
-            <span className="bg-gray-500 text-white rounded-lg w-full px-2 py-2 hover:bg-opacity-80 cursor-pointer shadow-gray-200 shadow-2xl">
+            <span
+              className="bg-gray-500 text-white rounded-lg w-full px-2 py-2 hover:bg-opacity-80 cursor-pointer shadow-gray-200 shadow-2xl"
+              onClick={() => handleChangePw()}
+            >
               Change Password
             </span>
             <span>
@@ -46,6 +59,8 @@ const Settings = () => {
           </div>
         </div>
       </div>
+
+      {showChangePassword && <ChangePassword />}
     </div>
   );
 };

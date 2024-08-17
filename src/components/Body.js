@@ -6,16 +6,11 @@ import PageNotFound from "./PageNotFound";
 import {
   createBrowserRouter,
   RouterProvider,
-  Navigate,
 } from "react-router-dom";
 const appRouter = createBrowserRouter([
   {
-    path: "/",
-    element: <Navigate to="/login" replace />,
-  },
-  {
-    path: "/login",
-    element: <Form />,
+    path:"/",
+    element:<Form/>
   },
   {
     path: "/dashboard",

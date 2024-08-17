@@ -5,13 +5,17 @@ const uiSlice = createSlice({
     initialState:{
 
         showItem:"Main Boards",
+        showChangePassword:false,
     },
     reducers:{
         addShowItem:(state,action)=>{
             state.showItem = action.payload;
+        },
+        setShowChangePassword:(state)=>{
+            state.showChangePassword=!state.showChangePassword;
         }
     }
 });
 
-export const {addShowItem} = uiSlice.actions;
+export const {addShowItem,setShowChangePassword} = uiSlice.actions;
 export default uiSlice.reducer;

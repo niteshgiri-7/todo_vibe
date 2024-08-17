@@ -1,5 +1,5 @@
 import checkForm from "./formValidator";
-import { addUser } from "./userSlice";
+import { login } from "./userSlice";
 const handleLogin = async (
   isSignUpForm,
   eml,
@@ -40,7 +40,7 @@ const handleLogin = async (
     const json = await response.json();
     const username = json?.username;
     if(username){
-      dispatch(addUser(username));
+      dispatch(login(username));
       navigate("/dashboard");
     }
     if (json?.token) {
