@@ -4,6 +4,9 @@ import MainBoard from "./MainBoard";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Settings from "./Settings";
+import Home from "./Home";
+import Notes from "./Notes";
+import Journal from "./Journal";
 
 const DashBoardPage = () => {
   const userExist = useSelector((store) => store.user);
@@ -14,26 +17,21 @@ const DashBoardPage = () => {
       navigate("/login");
     }
   }, [userExist, navigate]);
-  if(!userExist) return null;
+  if (!userExist) return null;
   return (
     <div className="flex ">
       <div className="min-w-[12vw]">
         <Utils />
       </div>
-     {selectedItem ==="Main Boards" && <MainBoard />}
-     {selectedItem==="Settings" && <Settings/>}
+      {selectedItem === "Main Boards" && <MainBoard />}
+      {selectedItem === "Settings" && <Settings />}
+      {selectedItem === "Home" && <Home />}
+
+      {selectedItem === "Notes" && <Notes />}
+
+      {selectedItem === "Journal" && <Journal />}
     </div>
   );
-  // return (
-
-  //     <div className="flex">
-  //       <div className="w-[12vw]">
-  //         <Utils />
-  //       </div>
-  //       <MainBoard />
-  //     </div>
-
-  // )
 };
 
 export default DashBoardPage;
