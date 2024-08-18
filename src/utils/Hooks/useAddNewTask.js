@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { BASE_URL } from "../constants";
 const useAddNewTask = (topic, text) => {
   const { taskBoolean } = useSelector((store) => store.taskSlice);
 
@@ -13,7 +14,7 @@ const useAddNewTask = (topic, text) => {
       console.log("cannot have null value");
       return null;
     }
-    const URL = "/tasks";
+    const URL = BASE_URL+"/tasks";
     const token = localStorage.getItem("authToken");
     const requestBody = {
       title: title,

@@ -1,9 +1,10 @@
+import { BASE_URL } from "../constants";
 
 
 const useDeleteTask = () => {
 
   const handleDelete = async (id) => {
-    const URL = `/tasks/${id}`;
+    const URL = BASE_URL+`/tasks/${id}`;
     const authToken = localStorage.getItem("authToken");
     try {
       const response = await fetch(URL, {

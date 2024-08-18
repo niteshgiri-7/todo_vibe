@@ -1,5 +1,5 @@
 import changePwValidator from "./changePwValidator";
-
+import { BASE_URL } from "./constants";
 const handlePwChange = async (
   username,
   oldPassword,
@@ -13,7 +13,7 @@ const handlePwChange = async (
     setErrMsg(validatorMsg);
     return false;
   }
-  const URL = "/users/changepassword";
+  const URL = BASE_URL+"/users/changepassword";
   const requestBody = {
     username: username,
     oldPassword: oldPassword,

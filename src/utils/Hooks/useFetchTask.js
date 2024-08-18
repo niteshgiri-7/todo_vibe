@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTaskFromBackend } from "../tasksSlice";
+import { BASE_URL } from "../constants";
 
 const useFetchTask = () => {
   const dispatch = useDispatch();
@@ -12,7 +13,7 @@ const useFetchTask = () => {
   }, [taskBoolean, deleteTaskBoolean, editTaskBoolean]);
   const fetchTask = async () => {
     const authToken = localStorage.getItem("authToken");
-    const URL = "/tasks";
+    const URL = BASE_URL+"/tasks";
     try {
       const response = await fetch(URL, {
         method: "GET",

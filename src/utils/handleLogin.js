@@ -1,5 +1,6 @@
 import checkForm from "./formValidator";
 import { login } from "./userSlice";
+import { BASE_URL } from "./constants";
 const handleLogin = async (
   isSignUpForm,
   eml,
@@ -9,12 +10,10 @@ const handleLogin = async (
   dispatch,
   navigate
 ) => {
-  const URL = isSignUpForm ? "/users/signup" : "/users/login";
+  const URL = isSignUpForm ? BASE_URL+"/users/signup" : BASE_URL+"/users/login";
   const email = isSignUpForm ? eml.current.value : null;
   const password = pw.current.value;
   const username = usrnm.current.value;
-
-  console.log("print", email, password, username, isSignUpForm);
 
   const validatorMessage = checkForm(email, password, username, isSignUpForm);
   setErrMsg(validatorMessage);
@@ -27,7 +26,6 @@ const handleLogin = async (
   };
 
   try {
-    console.log("waiting for server");
     const response = await fetch(URL, {
       method: "POST",
       headers: {
@@ -35,24 +33,28 @@ const handleLogin = async (
       },
       body: JSON.stringify(requestBody),
     });
-    console.log(response);
-    console.log("server responded");
-    const json = await response.json();
-    const username = json?.username;
-    if (username) {
-      dispatch(login(username));
-      navigate("/dashboard");
-    }
-    if (json?.token) {
-      localStorage.setItem("authToken", json.token);
-    }
-    const error = json?.error;
-    if (error) {
-      return setErrMsg(error);
+
+    const responseText = await response.text();
+    if (responseText) {
+      const json = JSON.parse(responseText);
+
+      const username = json?.username;
+      if (username) {
+        dispatch(login(username));
+        navigate("/dashboard");
+      }
+      if (json?.token) {
+        localStorage.setItem("authToken", json.token);
+      }
+      const error = json?.error;
+      if (error) {
+        return setErrMsg(error);
+      }
+    } else {
+      throw new Error("Empty response from server");
     }
   } catch (error) {
-    console.log(error);
-    const errMessage = error.message;
+    const errMessage = error.message || "Failed to connect to the server";
     setErrMsg(errMessage);
   }
 };

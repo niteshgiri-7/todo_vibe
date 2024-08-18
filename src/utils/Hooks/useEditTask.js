@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BASE_URL } from "../constants";
 
 const useEditFetchTask = (title, description) => {
   const authToken = localStorage.getItem("authToken");
@@ -7,7 +8,7 @@ const useEditFetchTask = (title, description) => {
   const [descrip, setDescription] = useState("");
   const handleEditFetch = async (id) => {
     console.log("edit button clicked");
-    const URL = `/tasks/${id}`;
+    const URL = BASE_URL+`/tasks/${id}`;
     try {
       console.log("waiting edit server");
       const response = await fetch(URL, {
