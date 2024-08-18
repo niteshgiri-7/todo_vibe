@@ -72,7 +72,7 @@ const Form = () => {
 
             <input
               className="my-2 p-4 rounded-3xl w-full bg-gray-300 bg-opacity-80 placeholder-gray-400 font-bold"
-              type="text" // Use password type for better security
+              type="text" 
               placeholder="Password"
               ref={pw}
             />
@@ -94,7 +94,7 @@ const Form = () => {
               </span>
             </div>
             <button
-              type="submit" // Change button type to submit
+              type="submit" 
               className="w-full bg-[#ed510f] px-2 py-4 font-bold text-white rounded-3xl"
             >
               {btnName}

@@ -14,7 +14,7 @@ const handleLogin = async (
   const password = pw.current.value;
   const username = usrnm.current.value;
 
-  console.log("print",email, password,username,isSignUpForm);
+  console.log("print", email, password, username, isSignUpForm);
 
   const validatorMessage = checkForm(email, password, username, isSignUpForm);
   setErrMsg(validatorMessage);
@@ -35,11 +35,11 @@ const handleLogin = async (
       },
       body: JSON.stringify(requestBody),
     });
-    console.log(response)
+    console.log(response);
     console.log("server responded");
     const json = await response.json();
     const username = json?.username;
-    if(username){
+    if (username) {
       dispatch(login(username));
       navigate("/dashboard");
     }
@@ -48,11 +48,10 @@ const handleLogin = async (
     }
     const error = json?.error;
     if (error) {
-     return  setErrMsg(error)
+      return setErrMsg(error);
     }
-
-    
   } catch (error) {
+    console.log(error);
     const errMessage = error.message;
     setErrMsg(errMessage);
   }

@@ -27,7 +27,7 @@ const NewCard = ({ setShowNewCard }) => {
         ref={topic}
       ></input>
       <textarea
-        className="mt-2 w-full h-[70%] rounded-md p-4"
+        className="mt-2 w-full h-[70%] max-h-[70%] min-h-[70%] rounded-md p-4"
         ref={text}
         placeholder="description"
       ></textarea>
