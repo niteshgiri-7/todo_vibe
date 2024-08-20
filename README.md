@@ -11,6 +11,7 @@
 - you can directly login to the site using following test account credentials
 - username : `Test2`
 - password : `Test@2`
+- visit the [site](https://todo-vibe.onrender.com)
 ## Backend Repository
 - The backend for ToDoVibe is managed separately. You can find it here: [ToDoVibe Backend](https://github.com/niteshgiri-7/Todo_App_backend)
 
