@@ -63,7 +63,7 @@ const MainBoard = () => {
       </div>
       <div className=" w-[45%] py-4 flex justify-between  text-[#476279]">
         <span>
-          you have <span className="font-bold">6</span> tasks remaining
+          you have <span className="font-bold">{allTasks?.length}</span> tasks remaining
         </span>
         <span className="pr-2">
           sort by:

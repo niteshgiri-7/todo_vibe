@@ -2,13 +2,14 @@ import React, { useRef, useState } from "react";
 import handleLogin from "../utils/handleLogin";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { ReactComponent as Loader } from "../assests/Loader.svg";
 const Form = () => {
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [errMsg, setErrMsg] = useState("");
   const [isSignUpForm, setSignUpForm] = useState(false);
+  const [loading, setLoading] = useState(false);
   const eml = useRef(null);
   const pw = useRef(null);
   const usrnm = useRef(null);
@@ -20,7 +21,16 @@ const Form = () => {
   };
 
   const handleSignIn = () => {
-    handleLogin(isSignUpForm, eml, pw, usrnm, setErrMsg, dispatch, navigate);
+    handleLogin(
+      isSignUpForm,
+      eml,
+      pw,
+      usrnm,
+      setErrMsg,
+      dispatch,
+      navigate,
+      setLoading
+    );
   };
 
   const btnName = isSignUpForm ? "Sign Up" : "Sign In";
@@ -72,7 +82,7 @@ const Form = () => {
 
             <input
               className="my-2 p-4 rounded-3xl w-full bg-gray-300 bg-opacity-80 placeholder-gray-400 font-bold"
-              type="text" 
+              type="text"
               placeholder="Password"
               ref={pw}
             />
@@ -94,10 +104,10 @@ const Form = () => {
               </span>
             </div>
             <button
-              type="submit" 
-              className="w-full bg-[#ed510f] px-2 py-4 font-bold text-white rounded-3xl"
+              type="submit"
+              className="w-full bg-[#ed510f] px-2 py-4 font-bold text-white rounded-3xl flex justify-center items-center"
             >
-              {btnName}
+              {loading ? <Loader/> : btnName}
             </button>
           </form>
           <div className="mt-10 flex px-2">

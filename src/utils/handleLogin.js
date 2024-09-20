@@ -8,9 +8,12 @@ const handleLogin = async (
   usrnm,
   setErrMsg,
   dispatch,
-  navigate
+  navigate,
+  setLoading
 ) => {
-  const URL = isSignUpForm ? BASE_URL+"/users/signup" : BASE_URL+"/users/login";
+  const URL = isSignUpForm
+    ? BASE_URL + "/users/signup"
+    : BASE_URL + "/users/login";
   const email = isSignUpForm ? eml.current.value : null;
   const password = pw.current.value;
   const username = usrnm.current.value;
@@ -26,6 +29,7 @@ const handleLogin = async (
   };
 
   try {
+    setLoading(true);
     const response = await fetch(URL, {
       method: "POST",
       headers: {
@@ -33,7 +37,7 @@ const handleLogin = async (
       },
       body: JSON.stringify(requestBody),
     });
-
+    setLoading(false);
     const responseText = await response.text();
     if (responseText) {
       const json = JSON.parse(responseText);
