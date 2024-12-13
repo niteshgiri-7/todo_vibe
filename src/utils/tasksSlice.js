@@ -20,9 +20,12 @@ const taskSlice = createSlice({
     },
     editTaskActivate:(state)=>{
       state.editTaskBoolean=!state.editTaskBoolean;
+    },
+    removeTasksDuringLogout:(state)=>{
+      state.allTasks = null;
     }
   },
 });
 
-export const { toggleAddTask, addTaskFromBackend ,deleteTaskActivate,editTaskActivate} = taskSlice.actions;
+export const { toggleAddTask, addTaskFromBackend ,deleteTaskActivate,editTaskActivate,removeTasksDuringLogout} = taskSlice.actions;
 export default taskSlice.reducer;
