@@ -1,6 +1,8 @@
 
 # Todo-Vibe
 - ToDoVibe is a full-stack to-do application built with the MERN stack (MongoDB, Express, React, Node.js) and Tailwind CSS.
+- Uses tanstack/react-query to manage the server-side states and brings in superfast user experience throughout the site.
+- Uses react-toastify to pop up messages highlighting the successful completion of an operation. Notifies user if error occurs.
 - It allows users to manage their tasks with features like task creation, editing and deletion.
 - Additional features are on the way.
 

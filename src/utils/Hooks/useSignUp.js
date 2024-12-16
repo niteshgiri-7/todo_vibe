@@ -11,11 +11,11 @@ const useSignUp = () => {
       navigate("/dashboard");
     },
     onError: (error) => {
-      console.log(error.message);
     },
   });
-
-  return mutation;
+  const register=mutation.mutate
+  const clearMutationStates = mutation.reset;
+  return {register,clearMutationStates};
 };
 
 export default useSignUp;

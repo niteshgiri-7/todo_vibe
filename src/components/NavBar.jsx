@@ -1,9 +1,8 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { useSelector } from "react-redux";
 const NavBar = () => {
-  const name = useSelector((store) => store.user.userHere);
+  const name = localStorage.getItem("username");
   return (
     <div className="flex justify-between  ">
       <div className="relative w-[25%]">

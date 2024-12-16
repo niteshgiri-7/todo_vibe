@@ -3,18 +3,20 @@ import Form from "./Form";
 
 import DashBoardPage from "./DashBoardPage";
 import PageNotFound from "./PageNotFound";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Protected from "./Protected";
 const appRouter = createBrowserRouter([
   {
-    path:"/",
-    element:<Form/>
+    path: "/",
+    element: <Form />,
   },
   {
     path: "/dashboard",
-    element: <DashBoardPage />,
+    element: (
+      <Protected>
+        <DashBoardPage />,
+      </Protected>
+    ),
   },
   {
     path: "*",

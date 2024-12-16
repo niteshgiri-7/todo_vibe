@@ -8,8 +8,6 @@ const handlePwChange = async (
 ) => {
   const validatorMsg = changePwValidator(username, oldPassword, newPassword);
   if (validatorMsg) {
-    console.log(validatorMsg);
-    console.log("cant proceed further");
     setErrMsg(validatorMsg);
     return false;
   }
@@ -20,7 +18,6 @@ const handlePwChange = async (
     newPassword: newPassword,
   };
   const authToken = localStorage.getItem("authToken");
-  console.log("waiting changing pw server");
   try {
     const response = await fetch(URL, {
       method: "PUT",
@@ -39,7 +36,6 @@ const handlePwChange = async (
 
     return true;
   } catch (error) {
-    console.log(error.message);
     setErrMsg("unexpected error occurred, try again");
     return false;
   }

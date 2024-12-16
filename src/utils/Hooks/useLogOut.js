@@ -1,19 +1,15 @@
 import { useDispatch } from "react-redux";
-import { logout } from "../userSlice";
 import { useNavigate } from "react-router-dom";
-import {  addShowItem } from "../uiSlice";
-import { removeTasksDuringLogout } from "../tasksSlice";
+import { addShowItem } from "../uiSlice";
 
 const useLogout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logOut = () => {
-    console.log("clicked\n removing user");
-
-
     dispatch(addShowItem("Main Boards"));
-    dispatch(removeTasksDuringLogout());
-    dispatch(logout());
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("username")
+    sessionStorage.removeItem("authToken");
     navigate("/");
   };
   return { logOut };

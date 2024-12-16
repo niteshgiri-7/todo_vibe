@@ -1,28 +1,49 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { ReactComponent as Loader } from "../assests/Loader.svg";
 import useLogin from "../utils/Hooks/useLogin";
 import useSignUp from "../utils/Hooks/useSignUp";
 import checkForm from "../utils/formValidator";
+import { rememberMe } from "../utils/context/context";
+import { useNavigate } from "react-router-dom";
 const Form = () => {
-  const { mutate, isPending, error,reset } = useLogin();
-  const mutation = useSignUp();
+  const navigate = useNavigate();
+  const [token] = useState(
+    localStorage.getItem("authToken") || sessionStorage.getItem("authToken")
+  );
+
+  //reset : clears the status of mutation(used when switched from signIn to signUp or viceversa)
+  const { signIn, isPending, error, reset } = useLogin();
+  const {
+    register,
+    clearMutationStates,
+    registrationPending,
+    registrationErr,
+  } = useSignUp();
+  const { isRemembered, handleIsRemember } = useContext(rememberMe);
   const [isSignUpForm, setSignUpForm] = useState(false);
   const [inputErrMsg, setInputErrMsg] = useState(null);
   const eml = useRef("");
   const pw = useRef("");
   const usrnm = useRef("");
 
+  useEffect(()=>{
+
+    if (token) {
+      return navigate("/dashboard");
+    }
+  },[])
+
   const handleSignUpLabel = () => {
     setSignUpForm((prevStatus) => !prevStatus);
     setInputErrMsg(null);
     if (isSignUpForm) {
       eml.current.value = "";
-      mutation.reset();
+      // mutation.reset();
+      clearMutationStates(); //clears signup states
     }
-    reset();
+    reset(); //clearing login states
     pw.current.value = "";
     usrnm.current.value = "";
-    console.log(isSignUpForm);
   };
 
   const handleLogin = ({ usrnm, pw }) => {
@@ -37,10 +58,8 @@ const Form = () => {
       isSignUpForm
     );
     setInputErrMsg(msg);
-    console.log(inputErrMsg);
-    console.log(msg);
     if (msg) return null;
-    mutate(user);
+    signIn(user);
   };
   const handleSignUp = ({ eml, usrnm, pw }) => {
     const user = {
@@ -56,7 +75,7 @@ const Form = () => {
     );
     setInputErrMsg(msg);
     if (msg) return null;
-    mutation.mutate(user);
+    register(user);
   };
   const btnName = isSignUpForm ? "Sign Up" : "Sign In";
   const formHead = { isSignUpForm } ? "Up" : "In";
@@ -119,15 +138,16 @@ const Form = () => {
                 {inputErrMsg
                   ? inputErrMsg
                   : isSignUpForm
-                  ? mutation?.error?.message
+                  ? registrationErr
                   : error?.message}
               </span>
             </div>
             <div className="w-[97%] flex justify-between mx-2 py-4 mt-4">
               <div>
                 <input
-                  type="radio"
-                  value="Remember me"
+                  type="checkbox"
+                  checked={isRemembered}
+                  onChange={handleIsRemember}
                   name="Remember me"
                   className="hover:cursor-pointer"
                 />
@@ -141,7 +161,17 @@ const Form = () => {
               type="submit"
               className="w-full bg-[#ed510f] px-2 py-4 font-bold text-white rounded-3xl flex justify-center items-center"
             >
-              {isSignUpForm ?(mutation.isPending ?<Loader />:btnName):isPending? <Loader /> : btnName}
+              {isSignUpForm ? (
+                registrationPending ? (
+                  <Loader />
+                ) : (
+                  btnName
+                )
+              ) : isPending ? (
+                <Loader />
+              ) : (
+                btnName
+              )}
             </button>
           </form>
           <div className="mt-10 flex px-2">
