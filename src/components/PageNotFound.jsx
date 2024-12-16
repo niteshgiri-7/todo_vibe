@@ -4,12 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { addShowItem } from "../utils/uiSlice";
 const PageNotFound = () => {
   const selectedItem = useSelector((store) => store.uiSlice.showItem);
-  const userExist = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
  
   const handleClick = () => {
-    if (userExist && (selectedItem!=="Main Boards" || selectedItem!=="Settings") ) {
+    if ((selectedItem!=="Main Boards" || selectedItem!=="Settings") ) {
       dispatch(addShowItem("Main Boards"));
     }
     navigate("/dashboard");
@@ -22,7 +21,7 @@ const PageNotFound = () => {
           Page not found or under development!
         </p>
  
-          <p className="mt-5 font-bold hover:cursor-pointer underline text-[1.3vw] text-purple-800 hover:cursor-pointer" onClick={()=>{handleClick()}}>
+          <p className="mt-5 font-bold hover:cursor-pointer underline text-[1.3vw] text-purple-800 " onClick={()=>{handleClick()}}>
             Go to Main Boards
           </p>
 

@@ -1,38 +1,82 @@
-import React, { useRef, useState } from "react";
-import handleLogin from "../utils/handleLogin";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { ReactComponent as Loader } from "../assests/Loader.svg";
+import useLogin from "../utils/Hooks/useLogin";
+import useSignUp from "../utils/Hooks/useSignUp";
+import checkForm from "../utils/formValidator";
+import { rememberMe } from "../utils/context/context";
+import { useNavigate } from "react-router-dom";
 const Form = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [token] = useState(
+    localStorage.getItem("authToken") || sessionStorage.getItem("authToken")
+  );
 
-  const [errMsg, setErrMsg] = useState("");
+  //reset : clears the status of mutation(used when switched from signIn to signUp or viceversa)
+  const { signIn, isPending, error, reset } = useLogin();
+  const {
+    register,
+    clearMutationStates,
+    registrationPending,
+    registrationErr,
+  } = useSignUp();
+  const { isRemembered, handleIsRemember } = useContext(rememberMe);
   const [isSignUpForm, setSignUpForm] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const eml = useRef(null);
-  const pw = useRef(null);
-  const usrnm = useRef(null);
+  const [inputErrMsg, setInputErrMsg] = useState(null);
+  const eml = useRef("");
+  const pw = useRef("");
+  const usrnm = useRef("");
+
+  useEffect(()=>{
+
+    if (token) {
+      return navigate("/dashboard");
+    }
+  },[])
 
   const handleSignUpLabel = () => {
     setSignUpForm((prevStatus) => !prevStatus);
-    setErrMsg("");
-    console.log(isSignUpForm);
+    setInputErrMsg(null);
+    if (isSignUpForm) {
+      eml.current.value = "";
+      // mutation.reset();
+      clearMutationStates(); //clears signup states
+    }
+    reset(); //clearing login states
+    pw.current.value = "";
+    usrnm.current.value = "";
   };
 
-  const handleSignIn = () => {
-    handleLogin(
-      isSignUpForm,
-      eml,
-      pw,
-      usrnm,
-      setErrMsg,
-      dispatch,
-      navigate,
-      setLoading
+  const handleLogin = ({ usrnm, pw }) => {
+    const user = {
+      username: usrnm.current.value,
+      password: pw.current.value,
+    };
+    const msg = checkForm(
+      user?.email,
+      user.password,
+      user.username,
+      isSignUpForm
     );
+    setInputErrMsg(msg);
+    if (msg) return null;
+    signIn(user);
   };
-
+  const handleSignUp = ({ eml, usrnm, pw }) => {
+    const user = {
+      email: eml.current.value,
+      username: usrnm.current.value,
+      password: pw.current.value,
+    };
+    const msg = checkForm(
+      user.email,
+      user.password,
+      user.username,
+      isSignUpForm
+    );
+    setInputErrMsg(msg);
+    if (msg) return null;
+    register(user);
+  };
   const btnName = isSignUpForm ? "Sign Up" : "Sign In";
   const formHead = { isSignUpForm } ? "Up" : "In";
   return (
@@ -61,7 +105,10 @@ const Form = () => {
             className="mt-8"
             onSubmit={(e) => {
               e.preventDefault();
-              handleSignIn();
+              if (isSignUpForm) {
+                return handleSignUp({ eml, usrnm, pw });
+              }
+              handleLogin({ usrnm, pw });
             }}
           >
             {isSignUpForm && (
@@ -87,13 +134,20 @@ const Form = () => {
               ref={pw}
             />
             <div className="px-4 absolute">
-              <span className="text-red-600 font-semibold">{errMsg}</span>
+              <span className="text-red-600 font-semibold">
+                {inputErrMsg
+                  ? inputErrMsg
+                  : isSignUpForm
+                  ? registrationErr
+                  : error?.message}
+              </span>
             </div>
             <div className="w-[97%] flex justify-between mx-2 py-4 mt-4">
               <div>
                 <input
-                  type="radio"
-                  value="Remember me"
+                  type="checkbox"
+                  checked={isRemembered}
+                  onChange={handleIsRemember}
                   name="Remember me"
                   className="hover:cursor-pointer"
                 />
@@ -107,7 +161,17 @@ const Form = () => {
               type="submit"
               className="w-full bg-[#ed510f] px-2 py-4 font-bold text-white rounded-3xl flex justify-center items-center"
             >
-              {loading ? <Loader/> : btnName}
+              {isSignUpForm ? (
+                registrationPending ? (
+                  <Loader />
+                ) : (
+                  btnName
+                )
+              ) : isPending ? (
+                <Loader />
+              ) : (
+                btnName
+              )}
             </button>
           </form>
           <div className="mt-10 flex px-2">
@@ -140,14 +204,15 @@ const Form = () => {
           <div className="text-center mt-4">
             <span>
               {isSignUpForm ? "Already" : "Don't"} have an account?{" "}
-              <span
+              <button
+                disabled={isPending}
                 className="text-[#ed510f] font-bold underline hover:cursor-pointer"
                 onClick={() => {
                   handleSignUpLabel();
                 }}
               >
                 Sign {isSignUpForm ? "In" : "Up"} now
-              </span>
+              </button>
             </span>
           </div>
         </div>

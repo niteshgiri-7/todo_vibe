@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addShowItem } from "../utils/uiSlice";
 const Utils = () => {
@@ -6,7 +5,6 @@ const Utils = () => {
   const dispatch = useDispatch();
 
   const handleClick = (item) => {
-    console.log(item);
     dispatch(addShowItem(item));
   };
   return (
