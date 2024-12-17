@@ -1,12 +1,16 @@
 import Axios from "../axios";
 
 const getToken = () => {
-  return localStorage.getItem("authToken")||sessionStorage.getItem("authToken");
+  return (
+    localStorage.getItem("authToken") || sessionStorage.getItem("authToken")
+  );
 };
-const token = `Bearer ${getToken()}`;
-
 
 export const fetchTodos = async () => {
+  const token = `Bearer ${getToken()}`;
+  if (!token) return;
+  console.log("fetching");
+  console.log(token);
   try {
     const { data } = await Axios.get("/tasks", {
       headers: {
@@ -20,20 +24,17 @@ export const fetchTodos = async () => {
 };
 
 export const addTodos = async ({ title, description }) => {
+  const token = `Bearer ${getToken()}`;
   try {
     const { data } = await Axios.post(
       "/tasks",
-      {
-        title,
-        description,
-      },
+      { title, description },
       {
         headers: {
           Authorization: token,
         },
       }
     );
-
     return data;
   } catch (error) {
     throw new Error(error?.response?.data?.error || "Failed to add todos");
@@ -41,13 +42,11 @@ export const addTodos = async ({ title, description }) => {
 };
 
 export const editTodos = async ({ id, title, description }) => {
+  const token = `Bearer ${getToken()}`;
   try {
     const { data } = await Axios.put(
       `/tasks/${id}`,
-      {
-        title,
-        description,
-      },
+      { title, description },
       {
         headers: {
           Authorization: token,
@@ -61,6 +60,7 @@ export const editTodos = async ({ id, title, description }) => {
 };
 
 export const deleteTodo = async (id) => {
+  const token = `Bearer ${getToken()}`;
   try {
     const { data } = await Axios.delete(`/tasks/${id}`, {
       headers: {

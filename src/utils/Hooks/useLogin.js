@@ -3,6 +3,7 @@ import { login } from "../queries/userAuth";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { rememberMe } from "../context/context";
+import { fetchTodos } from "../queries/todosQueries";
 
 const useLogin = () => {
   const { isRemembered } = useContext(rememberMe);
@@ -19,11 +20,10 @@ const useLogin = () => {
         sessionStorage.getItem("authToken")
       ) {
         navigate("/dashboard");
+        fetchTodos();
       }
-      
     },
-    onError: (error) => {
-    },
+    onError: (error) => {},
   });
   const signIn = mutate;
   return { data, error, isPending, signIn, reset };
