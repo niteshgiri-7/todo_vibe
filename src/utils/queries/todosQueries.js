@@ -9,8 +9,8 @@ const getToken = () => {
 export const fetchTodos = async () => {
   const token = `Bearer ${getToken()}`;
   if (!token) return;
-  console.log("fetching");
-  console.log(token);
+  // console.log("fetching");
+  // console.log(token);
   try {
     const { data } = await Axios.get("/tasks", {
       headers: {

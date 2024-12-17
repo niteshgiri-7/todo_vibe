@@ -2,36 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { editTodos } from "../queries/todosQueries";
 import { toast } from "react-toastify";
 
-// const useEditTodos = (id) => {
-//   const queryClient = useQueryClient();
-//   const { data, mutate } = useMutation({
-//     mutationFn: editTodos,
-//     onMutate: async (afterEdit) => {
-//       const prevTodos = queryClient.getQueryData(["todos"]);
-//       console.log(prevTodos);
-//       const beforeEdit = prevTodos.find((todo) => todo._id === id);
-//       console.log(beforeEdit);
-//       queryClient.setQueryData(["todos"], (oldData) => {
-//         oldData?.map((old) => (old._id === id ? { ...old, afterEdit } : old));
-//       });
-//       console.log(queryClient.getQueryData(["todos"]));
-//       return beforeEdit;
-//     },
-//     onError: (context, error) => {
-//       console.log("error editing", error?.message);
-//       queryClient.setQueryData(["todos"], (newData) =>
-//         newData?.map((newTodo) =>
-//           newTodo._id === id ? { ...newTodo, ...context.beforeEdit } : newTodo
-//         )
-//       );
-//     },
-//     onSuccess: () => {
-//       toast.success("Todo updated");
-//       console.log("edit success");
-//     },
-//   });
-//   return { mutate };
-// };
+
 
 const useEditTodos = () => {
   const queryClient = useQueryClient();
