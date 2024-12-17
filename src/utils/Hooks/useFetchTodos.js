@@ -16,7 +16,7 @@ const useFetchTodos = () => {
       toast.error("Sorry! Something went wrong.");
     },
   });
-  return { todos, error, isError };
+  return { todos, error, isError ,fetchTodos};
 };
 
 export default useFetchTodos;

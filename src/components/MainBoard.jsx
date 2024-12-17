@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "./NavBar";
 import Cards from "./Cards";
 import Shimmer from "./Shimmer";
-import {  ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import Modal from "./Modal";
 import TodoForm from "./TodoForm";
 import useFetchTodos from "../utils/Hooks/useFetchTodos";
@@ -16,10 +16,12 @@ const MainBoard = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [initialData, setInitialData] = useState({});
 
-  const { todos} = useFetchTodos();
+  const { todos } = useFetchTodos();
   const { Update } = useEditTodos();
   const { add } = useAddTodos();
   const { remove } = useDeleteTodo();
+
+
 
   const handleAddBoardClick = () => {
     setInitialData({});

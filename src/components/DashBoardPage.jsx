@@ -6,7 +6,6 @@ import Home from "./Home";
 import Notes from "./Notes";
 import Journal from "./Journal";
 const DashBoardPage = () => {
-  // const userExist = useSelector((store) => store.user.userHere);
   const selectedItem = useSelector((store) => store.uiSlice.showItem);
   return (
     <div className="flex ">
